@@ -18,24 +18,24 @@
 
 - Rubah login (dipercantik lagi) dan gunakan logo PT Estu Lentera Indo teknologi (logo-elit.png) (utama)
 
-- tambahkan menu mahasiswa di home (sedang)
+- Tambahkan menu mahasiswa di home (sedang)
 
-- tambahkan tabel baru bernama pekerjaan (Nama Pekerjaan, Alamat pekerjaan, Nomor HP Pekerjaan) serta relasikan dengan tabel alumni
+- Tambahkan tabel baru bernama pekerjaan (Nama Pekerjaan, Alamat pekerjaan, Nomor HP Pekerjaan) serta relasikan dengan tabel alumni
 (utama)
 
-- tambahkan menu pekerjaan di home(sedang)
+- Tambahkan menu pekerjaan di home(sedang)
 
-- tambahkan CRUD di menu pekerjaan (utama)
+- Tambahkan CRUD di menu pekerjaan (utama)
 
-- tambahkan filter pencarian berdasarkan nama nim angkatan, angkatan, serta judul skripsi di menu mahasiswa (sedang)
+- Tambahkan filter pencarian berdasarkan nama nim angkatan, angkatan, serta judul skripsi di menu mahasiswa (sedang)
 
-- tambahkan ekspor pdf dan excel (tambahan)
+- Tambahkan ekspor pdf dan excel (tambahan)
 
-- tambahkan upload ijazah dan foto minimal 1 MB (sedang)
+- Tambahkan upload ijazah dan foto minimal 1 MB (sedang)
 
-- bersihkan error2 yang ada di program (utama)
+- Bersihkan error2 yang ada di program (utama)
 
-- tambahkan fitur dan percantik lagi setiap halamannya (tambahan)
+- Tambahkan fitur dan percantik lagi setiap halamannya (tambahan)
 
 ## Aturan :
 
@@ -55,7 +55,8 @@
 
 5. Semua pekerjaan diupload di github masing-masing dan dikirimkan ke WA pengawas atau email support@estulentera.id
 
+<p align="center">
 
-	--- Selamat Mengerjakan :) ----
-
+	--- <b>Selamat Mengerjakan :)</b> ----
+</p>
 

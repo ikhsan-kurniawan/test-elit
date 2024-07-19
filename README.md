@@ -7,8 +7,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+<p align="center">
 
-##Soal :
+ <img src="logo-elit.png" alt="Logo ELIT" class="center"> 
+</p>
+
+
+
+## Soal :
 
 - Rubah login (dipercantik lagi) dan gunakan logo PT Estu Lentera Indo teknologi (logo-elit.png) (utama)
 

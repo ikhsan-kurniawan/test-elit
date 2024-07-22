@@ -56,6 +56,18 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="pekerjaanMahasiswa" class="col-sm-2 col-form-label">Pekerjaan</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="pekerjaanMahasiswa" id="pekerjaanMahasiswa">
+                        <option> </option>
+                        @foreach ($pekerjaans as $pekerjaan)
+                            <option value="{{ $pekerjaan->namaPekerjaan }}">{{ $pekerjaan->namaPekerjaan }}</option>
+                            
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="judulskripsiMahasiswa" class="col-sm-2 col-form-label">Judul Skripsi</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" name="judulskripsiMahasiswa" rows="8" cols="80" placeholder="Masukkan Judul Skripsi"></textarea>
@@ -73,13 +85,20 @@
                     <input type="text" name="pembimbing2" class="form-control" id="pembimbing2" placeholder="Pembimbing 2">
                 </div>
             </div>
-            <!--<div class="form-group row">
-                <label for="gambarMahasiswa" class="col-sm-2 col-form-label">Pilih gambar</label>
+            <div class="form-group row">
+                <label for="fotoMahasiswa" class="col-sm-2 col-form-label">Foto</label>
                 <div class="col-sm-10">
-                    <input type="file" name="gambarMahasiswa">
-                <p class="text-danger">{{ $errors->first('gambarMahasiswa') }}</p>
+                    <input type="file" name="fotoMahasiswa">
+                <p class="text-danger">{{ $errors->first('fotoMahasiswa') }}</p>
                 </div>
-            </div>-->
+            </div>
+            <div class="form-group row">
+                <label for="ijazahMahasiswa" class="col-sm-2 col-form-label">Ijazah</label>
+                <div class="col-sm-10">
+                    <input type="file" name="ijazahMahasiswa">
+                <p class="text-danger">{{ $errors->first('ijazahMahasiswa') }}</p>
+                </div>
+            </div>
 
              <hr>
                 <div class="form-group">

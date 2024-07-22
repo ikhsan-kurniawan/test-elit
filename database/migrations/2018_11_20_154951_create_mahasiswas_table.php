@@ -22,7 +22,7 @@ class CreateMahasiswasTable extends Migration
             $table->string('pembimbing1');
             $table->string('pembimbing2');
             //$table->string('gambarMahasiswa');
-           //$table->string('path');
+            //$table->string('path');
             $table->timestamps();
         });
     }

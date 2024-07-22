@@ -4,8 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+            <div class="card mx-auto" style="background-color: #a5a6a8; width:80%">
+                <div class="card-header h1 text-center">{{ __('Login') }}</div>
+                <img class="mx-auto card-img-top" src="{{ asset('img/logo-elit.png') }}" alt="Card image cap" style="width: 300px">
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -53,7 +54,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-lg">
                                     {{ __('Login') }}
                                 </button>
 

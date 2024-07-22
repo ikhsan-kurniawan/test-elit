@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mahasiswa;
+use App\Pekerjaan;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
@@ -12,11 +15,21 @@ class MahasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswas = Mahasiswa::orderBy('id','asc')->paginate(5);
-        return view('mahasiswa.index',compact('mahasiswas'))
-                ->with('i',(request()->input('page',1) -1)*5);
+        $query = Mahasiswa::query();
+
+        if ($request->input('search')) {
+            $search = $request->input('search');
+            $query->where('namaMahasiswa', 'LIKE', '%' . $search . '%')
+                ->orWhere('nimMahasiswa', 'LIKE', '%' . $search . '%')
+                ->orWhere('angkatanMahasiswa', 'LIKE', '%' . $search . '%')
+                ->orWhere('judulskripsiMahasiswa', 'LIKE', '%' . $search . '%');
+        }
+
+        $mahasiswas = $query->orderBy('id', 'asc')->paginate(5);
+        return view('mahasiswa.index', compact('mahasiswas'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -26,7 +39,8 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('mahasiswa.create');
+        $pekerjaans = Pekerjaan::get();
+        return view('mahasiswa.create', compact('pekerjaans'));
     }
 
     /**
@@ -39,18 +53,27 @@ class MahasiswaController extends Controller
     {
 
         $request->validate([
-            'namaMahasiswa'=>'required',
-            'nimMahasiswa' => 'required',
-            'angkatanMahasiswa'=>'required',
+            'namaMahasiswa' => 'required',
+            'nimMahasiswa' => 'required|numeric',
+            'angkatanMahasiswa' => 'required',
+            'pekerjaanMahasiswa' => 'required',
             'judulskripsiMahasiswa' => 'required',
-            'pembimbing1'=>'required',
+            'pembimbing1' => 'required',
             'pembimbing2' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'fotoMahasiswa' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'ijazahMahasiswa' => 'nullable|file|mimes:pdf|max:1024',
         ]);
- 
-        Mahasiswa::create($request->all());
+
+        $fotoMahasiswa = $request->file('fotoMahasiswa') ? $request->file('fotoMahasiswa')->store('public/fotos') : null;
+        $ijazahMahasiswa = $request->file('ijazahMahasiswa') ? $request->file('ijazahMahasiswa')->store('public/ijazahs') : null;
+
+        $data = $request->all();
+        $data['fotoMahasiswa'] = $fotoMahasiswa;
+        $data['ijazahMahasiswa'] = $ijazahMahasiswa;
+
+        Mahasiswa::create($data);
         return redirect()->route('mahasiswa.index')
-                         ->with('success','Data berhasil ditambahkan');
+            ->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -74,7 +97,11 @@ class MahasiswaController extends Controller
     public function edit($id)
     {
         $mahasiswa = Mahasiswa::find($id);
-        return view('mahasiswa.edit', compact('mahasiswa'));
+        $pekerjaans = Pekerjaan::get();
+        return view('mahasiswa.edit', [
+            'pekerjaans' => $pekerjaans,
+            'mahasiswa' => $mahasiswa,
+        ]);
     }
 
     /**
@@ -87,24 +114,44 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'namaMahasiswa'=>'required',
+            'namaMahasiswa' => 'required',
             'nimMahasiswa' => 'required',
-            'angkatanMahasiswa'=>'required',
+            'angkatanMahasiswa' => 'required',
+            'pekerjaanMahasiswa' => 'required',
             'judulskripsiMahasiswa' => 'required',
-            'pembimbing1'=>'required',
+            'pembimbing1' => 'required',
             'pembimbing2' => 'required',
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+            'fotoMahasiswa' => 'nullable|mimes:jpg,png,jpeg|max:1024',
+            'ijazahMahasiswa' => 'nullable|file|mimes:pdf|max:1024',
         ]);
+
+
         $mahasiswa = Mahasiswa::find($id);
+
+        if ($request->hasFile('fotoMahasiswa')) {
+            if ($mahasiswa->fotoMahasiswa) {
+                Storage::delete($mahasiswa->fotoMahasiswa);
+            }
+            $mahasiswa->fotoMahasiswa = $request->file('fotoMahasiswa')->store('public/fotos');
+        }
+
+        if ($request->hasFile('ijazahMahasiswa')) {
+            if ($mahasiswa->ijazahMahasiswa) {
+                Storage::delete($mahasiswa->ijazahMahasiswa);
+            }
+            $mahasiswa->ijazahMahasiswa = $request->file('ijazahMahasiswa')->store('public/ijazahs');
+        }
+
         $mahasiswa->namaMahasiswa = $request->get('namaMahasiswa');
         $mahasiswa->nimMahasiswa = $request->get('nimMahasiswa');
         $mahasiswa->angkatanMahasiswa = $request->get('angkatanMahasiswa');
+        $mahasiswa->pekerjaanMahasiswa = $request->get('pekerjaanMahasiswa');
         $mahasiswa->judulskripsiMahasiswa = $request->get('judulskripsiMahasiswa');
         $mahasiswa->pembimbing1 = $request->get('pembimbing1');
         $mahasiswa->pembimbing2 = $request->get('pembimbing2');
         $mahasiswa->save();
         return redirect()->route('mahasiswa.index')
-                         ->with('success', 'Data berhasil diupdate');
+            ->with('success', 'Data berhasil diupdate');
     }
 
     /**
@@ -116,8 +163,15 @@ class MahasiswaController extends Controller
     public function destroy($id)
     {
         $mahasiswa = Mahasiswa::find($id);
+
+        if ($mahasiswa->fotoMahasiswa) {
+            Storage::delete($mahasiswa->fotoMahasiswa);
+        }
+        if ($mahasiswa->ijazahMahasiswa) {
+            Storage::delete($mahasiswa->ijazahMahasiswa);
+        }
         $mahasiswa->delete();
         return redirect()->route('mahasiswa.index')
-                         ->with('success', 'Data Alumni berhasil dihapus');
+            ->with('success', 'Data Alumni berhasil dihapus');
     }
 }

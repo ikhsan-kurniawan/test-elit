@@ -55,6 +55,27 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="fotoMahasiswa" class="col-sm-2 col-form-label">Foto </label>
+            <div class="col-sm-10">
+                @if ($mahasiswa->fotoMahasiswa)
+                    <img src="{{ Storage::url($mahasiswa->fotoMahasiswa) }}" style="width: 200px">
+                @else
+                    Tidak ada foto
+                @endif
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ijazahMahasiswa" class="col-sm-2 col-form-label">Ijazah </label>
+            <div class="col-sm-10">
+                @if ($mahasiswa->ijazahMahasiswa)
+                    <a href="{{ Storage::url($mahasiswa->ijazahMahasiswa) }}" target="_blank">Lihat Ijazah</a>
+                @else
+                    Tidak ada ijazah
+                @endif
+            </div>
+        </div>
+        
+        <div class="form-group row">
             <div class="col-md-12">
                 <a href="{{route('mahasiswa.index')}}" class="btn  btn-success">Kembali</a>
             </div>
